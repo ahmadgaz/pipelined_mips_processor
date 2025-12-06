@@ -42,7 +42,7 @@ module datapath (
     output wire [31:0] alu_out,
     output wire [31:0] awd_rf,
     output wire [31:0] wd_rf,
-    output wire [31:0] rf_wa,
+    output wire [4:0] rf_wa,
     output wire [31:0] sext_imm,
     output wire [31:0] rd3,
     output wire [31:0] rd2_rf,

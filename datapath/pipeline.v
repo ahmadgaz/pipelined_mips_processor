@@ -25,7 +25,7 @@ module pipeline (
     input wire [31:0] alu_out,
     input wire [31:0] lowd_rf,
     input wire [31:0] hiwd_rf,
-    input wire [31:0] rf_wa,
+    input wire [4:0] rf_wa,
     input wire [31:0] rd_dm,
     input wire [31:0] awd_rf,
 
@@ -105,27 +105,43 @@ module pipeline (
 
   assign id_next = {instr, pc_plus4};
   assign exe_next = {
-    we_reg,
-    dm2reg,
-    we_dm,
-    rf_awd_src,
-    alu_ctrl,
-    alu_src,
-    reg_dst,
-    hilo_we,
-    rd1_rfd,
-    rd2_rfd,
-    sext_imm,
-    instrd[25:21],
-    instrd[20:16],
-    instrd[15:11],
-    instrd[10:6],
-    pc_plus4d
+    we_reg,         // 1b
+    dm2reg,         // 2b
+    we_dm,          // 1b
+    rf_awd_src,     // 2b
+    alu_ctrl,       // 3b
+    alu_src,        // 1b
+    reg_dst,        // 2b
+    hilo_we,        // 1b
+    rd1_rfd,        // 32b
+    rd2_rfd,        // 32b
+    sext_imm,       // 32b
+    instrd[25:21],  // 5b
+    instrd[20:16],  // 5b
+    instrd[15:11],  // 5b
+    instrd[10:6],   // 5b
+    pc_plus4d       // 32b
   };
   assign mem_next = {
-    alu_out, lowd_rf, hiwd_rf, rf_wa, we_rege, dm2rege, we_dme, rf_awd_srce, wd_dme, pc_plus4e
+    alu_out,      // 32b
+    lowd_rf,      // 32b
+    hiwd_rf,      // 32b
+    rf_wa,        // 5b
+    we_rege,      // 1b
+    dm2rege,      // 2b
+    we_dme,       // 1b
+    rf_awd_srce,  // 2b
+    wd_dme,       // 32b
+    pc_plus4e     // 32b
   };
-  assign wb_next = {rd_dm, awd_rf, we_regm, dm2regm, rf_wam, pc_plus4e};
+  assign wb_next = {
+    rd_dm,    // 32b
+    awd_rf,   // 32b
+    we_regm,  // 1b
+    dm2regm,  // 2b
+    rf_wam,   // 5b
+    pc_plus4e // 32b
+  };
 
   assign {instrd, pc_plus4d} = id_current;
   assign {
