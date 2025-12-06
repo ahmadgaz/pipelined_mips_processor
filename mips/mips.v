@@ -150,6 +150,7 @@ module mips (
       .rf_waw    (rf_waw),
       .we_rege   (we_rege),
       .we_regm   (we_regm),
+      .we_regw   (we_regw),
       .dm2rege   (dm2rege),
       .dm2regm   (dm2regm),
       .instrd    (instrd),

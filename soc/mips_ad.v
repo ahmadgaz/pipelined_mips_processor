@@ -1,5 +1,5 @@
 module mips_ad (
-    input  wire [32:0] a,
+    input  wire [31:0] a,
     input  wire        we,
     output reg         we1,
     output reg         we2,
