@@ -199,7 +199,8 @@ module pipeline (
   dreg #(64) id (
       .d  (id_next),
       .en (~stall_d),
-      .rst(rst | jump | j_src | pc_src),
+      .clr(jump | j_src | pc_src),
+      .rst(rst),
       .clk(clk),
       .q  (id_current)
   );
@@ -218,7 +219,8 @@ module pipeline (
   dreg #(161) exe (
       .d  (exe_next),
       .en (1),
-      .rst(flush_e | rst),
+      .clr(flush_e),
+      .rst(rst),
       .clk(clk),
       .q  (exe_current)
   );
