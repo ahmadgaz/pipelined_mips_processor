@@ -159,6 +159,8 @@ module mips (
   );
 
   pipeline pl (
+      .jump       (jump),
+      .j_src      (j_src),
       .clk        (clk),
       .rst        (rst),
       .instr      (instr),
