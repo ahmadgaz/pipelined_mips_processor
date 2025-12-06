@@ -67,7 +67,6 @@ module mips (
   wire        stall_d;
   wire        flush_e;
   wire [ 4:0] rse;
-  wire [ 4:0] rf_wae;
   wire [ 4:0] rf_wam;
   wire        we_rege;
   wire        we_regm;
