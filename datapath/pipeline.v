@@ -178,6 +178,24 @@ module pipeline (
   assign cmp_out = rd1_rfd == rd2_rfd;
   assign pc_src = branch && cmp_out;
 
+  `ifndef SYNTHESIS
+  always @(rst) begin
+      $display("%t: pipeline sees rst=%b", $time, rst);
+  end
+  always @(jump) begin
+      $display("%t: pipeline sees jump=%b", $time, jump);
+  end
+  always @(j_src) begin
+      $display("%t: pipeline sees j_src=%b", $time, j_src);
+  end
+  always @(pc_src) begin
+      $display("%t: pipeline sees pc_src=%b", $time, pc_src);
+  end
+  always @(rst | jump | j_src | pc_src) begin
+      $display("%t: id dreg instance sees rst=%b", $time, rst | jump | j_src | pc_src);
+  end
+  `endif
+
   dreg #(64) id (
       .d  (id_next),
       .en (~stall_d),
