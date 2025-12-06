@@ -38,7 +38,7 @@ module mips_tb;
 
     initial begin
         rst  = 1'b1;
-        gpi1 = 32'd0; // driver sees constant 0 on gpi1 (change if needed)
+        gpi1 = 4;
 
         #40;
         rst = 1'b0;
