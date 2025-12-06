@@ -2,13 +2,13 @@ module mips_fpga (
     input  wire       clk,
     input  wire       rst,
     input  wire       button,
-    input  wire [4:0] switches,
+    input  wire [13:0] switches,
     output wire       factErr,
     output wire       dispSe,
     output wire [3:0] LEDSEL,
     output wire [7:0] LEDOUT
 );
-  wire [15:0] reg_hex;
+  reg [15:0] reg_hex;
   wire        clk_sec;
   wire        clk_5KHz;
   wire        clk_pb;
@@ -85,7 +85,7 @@ module mips_fpga (
   );
 
   led_mux led_mux (
-      .clk   (clk_),
+      .clk   (clk_5KHz),
       .rst   (rst),
       .LED3  (digit3),
       .LED2  (digit2),
