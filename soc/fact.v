@@ -1,12 +1,14 @@
-module fact (
+module fact #(
+    parameter WIDTH = 32
+) (
     input clk,
     input rst,
-    input [3:0] n,
+    input [WIDTH-1:0] n,
     input go,
 
     output done,
     output err,
-    output [3:0] nf
+    output [WIDTH-1:0] nf
 );
   wire load_cnt;
   wire en;
@@ -31,7 +33,9 @@ module fact (
       .error(err)
   );
 
-  fact_dp dp (
+  fact_dp #(
+      .WIDTH(WIDTH)
+  ) dp (
       .clk(clk),
       .load_cnt(load_cnt),
       .en(en),

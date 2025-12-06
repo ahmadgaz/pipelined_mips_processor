@@ -10,13 +10,13 @@ module fact_top (
   wire we2;
   wire we1;
   wire [1:0] rdsel;
-  wire [3:0] n_curr;
+  wire [31:0] n_curr;
   wire go_curr;
   wire go_pulse_curr;
   wire done_next, err_next;
-  wire [3:0] nf_next;
+  wire [31:0] nf_next;
   wire done_curr, err_curr;
-  wire [3:0] nf_curr;
+  wire [31:0] nf_curr;
   wire we2_and_we0 = we2 & wd[0];
 
   fact_ad fact_ad (
@@ -26,8 +26,8 @@ module fact_top (
       .we1(we1),
       .rdsel(rdsel)
   );
-  dreg #(4) n_reg (
-      .d  (wd),
+  dreg #(32) n_reg (
+      .d  ({28'b0, wd}),
       .en (we1),
       .rst(rst),
       .clk(clk),
@@ -47,7 +47,7 @@ module fact_top (
       .clk(clk),
       .q  (go_pulse_curr)
   );
-  fact fact (
+  fact #(32) fact (
       .n(n_curr),
       .go(go_pulse_curr),
       .rst(rst),
@@ -70,7 +70,7 @@ module fact_top (
       .clk(clk),
       .q  (err_curr)
   );
-  dreg #(4) res_reg (
+  dreg #(32) res_reg (
       .d  (nf_next),
       .en (done_next),
       .rst(rst),
@@ -81,7 +81,7 @@ module fact_top (
       .a  ({28'b0, nf_curr}),
       .b  ({31'b0, go_curr}),
       .c  ({30'b0, err_curr, done_curr}),
-      .d  ({28'b0, nf_curr}),
+      .d  (nf_curr),
       .sel(rdsel),
       .y  (rd)
   );
