@@ -8,7 +8,7 @@ module mips_fpga (
     output wire [3:0] LEDSEL,
     output wire [7:0] LEDOUT
 );
-  reg [15:0] reg_hex;
+  wire [15:0] reg_hex;
   wire        clk_sec;
   wire        clk_5KHz;
   // wire        clk_pb;
