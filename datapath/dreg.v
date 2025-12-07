@@ -10,7 +10,7 @@ module dreg #(
 );
   always @(posedge clk, posedge rst) begin
     if (rst) q <= 0;
-    else if (clr) q <= 0;
+    else if (clr && en) q <= 0;
     else if (en) q <= d;
   end
 endmodule
