@@ -38,7 +38,7 @@ module mips_tb;
 
     initial begin
         rst  = 1'b1;
-        gpi1 = 4;
+        gpi1 = 3;
 
         #40;
         rst = 1'b0;
