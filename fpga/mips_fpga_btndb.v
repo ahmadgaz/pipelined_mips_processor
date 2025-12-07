@@ -1,8 +1,8 @@
-module mips_fpga (
+module mips_fpga_btndb (
     input  wire       clk,
     input  wire       rst,
-    // input  wire       button,
-    input  wire [5:0] switches,
+    input  wire       button,
+    input  wire [13:0] switches,
     output wire       factErr,
     output wire       dispSe,
     output wire [3:0] LEDSEL,
@@ -11,7 +11,7 @@ module mips_fpga (
   reg [15:0] reg_hex;
   wire        clk_sec;
   wire        clk_5KHz;
-  // wire        clk_pb;
+  wire        clk_pb;
 
   wire [ 7:0] digit0;
   wire [ 7:0] digit1;
@@ -35,18 +35,18 @@ module mips_fpga (
       .clk_5KHz (clk_5KHz)
   );
 
-  // button_debouncer bd (
-  //     .clk             (clk_5KHz),
-  //     .button          (button),
-  //     .debounced_button(clk_pb)
-  // );
+  button_debouncer bd (
+      .clk             (clk_5KHz),
+      .button          (button),
+      .debounced_button(clk_pb)
+  );
 
   system dut (
       .clk       (clk_pb),
       .rst       (rst),
-      .gpi1      ({27'd0, switches[4:0]}),
-      // .ra3       (switches[4:0]),
-      // .rd3       (dispData),
+      .gpi1      ({27'd0, switches[13:9]}),
+      .ra3       (switches[4:0]),
+      .rd3       (dispData),
       .gpi2      (gpo1),
       .pc_current(pc_current),
       .instr     (instr),
@@ -57,12 +57,12 @@ module mips_fpga (
       .gpo2      (gpo2)
   );
 
-  mux2 #(16) reg_hex_mux (
-      .sel(gpo1[4]),
-      .a  (gpo2[15:0]),
-      .b  (gpo2[31:16]),
-      .y  (reg_hex)
-  );
+  // mux2 #(16) reg_hex_mux (
+  //     .sel(gpo1[4]),
+  //     .a  (gpo2[15:0]),
+  //     .b  (gpo2[31:16]),
+  //     .y  (reg_hex)
+  // );
 
   hex_to_7seg hex3 (
       .HEX(reg_hex[15:12]),
@@ -95,21 +95,21 @@ module mips_fpga (
       .LEDOUT(LEDOUT)
   );
 
-  // always @(posedge clk) begin
-  //   case ({
-  //     switches[8:5]
-  //   })
-  //     4'b0000: reg_hex = dispData[15:0];
-  //     4'b0001: reg_hex = dispData[31:16];
-  //     4'b0010: reg_hex = instr[15:0];
-  //     4'b0011: reg_hex = instr[31:16];
-  //     4'b0100: reg_hex = alu_out[15:0];
-  //     4'b0101: reg_hex = alu_out[31:16];
-  //     4'b0110: reg_hex = gpo2[15:0];
-  //     4'b0111: reg_hex = gpo2[31:16];
-  //     4'b1000: reg_hex = pc_current[15:0];
-  //     4'b1001: reg_hex = pc_current[31:16];
-  //     default: reg_hex = pc_current[15:0];
-  //   endcase
-  // end
+  always @(posedge clk) begin
+    case ({
+      switches[8:5]
+    })
+      4'b0000: reg_hex = dispData[15:0];
+      4'b0001: reg_hex = dispData[31:16];
+      4'b0010: reg_hex = instr[15:0];
+      4'b0011: reg_hex = instr[31:16];
+      4'b0100: reg_hex = alu_out[15:0];
+      4'b0101: reg_hex = alu_out[31:16];
+      4'b0110: reg_hex = gpo2[15:0];
+      4'b0111: reg_hex = gpo2[31:16];
+      4'b1000: reg_hex = pc_current[15:0];
+      4'b1001: reg_hex = pc_current[31:16];
+      default: reg_hex = pc_current[15:0];
+    endcase
+  end
 endmodule
