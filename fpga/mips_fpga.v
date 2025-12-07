@@ -42,7 +42,7 @@ module mips_fpga (
   // );
 
   system dut (
-      .clk       (clk_pb),
+      .clk       (clk_5KHz),
       .rst       (rst),
       .gpi1      ({27'd0, switches[4:0]}),
       // .ra3       (switches[4:0]),
