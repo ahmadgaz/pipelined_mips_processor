@@ -34,6 +34,7 @@ module fact_cu (
       S0: begin
         if (!go) begin
           ns = S0;
+          done = 1'b1;
           sel_2 = 1'b1;
         end else if (gt_in) begin
           ns = S0;
